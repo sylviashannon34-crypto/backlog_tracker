@@ -1,0 +1,11 @@
+{% extends 'base.html' %}{% block title %}Result imports{% endblock %}{% block content %}
+<div class="page-heading"><div><div class="eyebrow">DATA MANAGEMENT</div><h1>Result imports</h1><p class="subheading">Upload official result PDFs and add records to the academic tracker.</p></div></div>
+<section class="panel import-panel"><div class="panel-heading"><div><h2>Upload a result PDF</h2><p>Text-based university result PDFs with grade columns marked “GR” are supported.</p></div><div class="upload-icon">↥</div></div><form method="post" enctype="multipart/form-data" class="form-grid">
+  <label class="field"><span>Result type</span><select name="kind"><option value="regular">Regular result</option><option value="supplementary">Supplementary result</option></select></label>
+  <label class="field"><span>Semester name</span><input name="semester_name" value="I Year I Semester" required></label>
+  <label class="field"><span>Academic scheme</span><input name="academic_scheme" value="AR25" required></label>
+  <label class="field file-field"><span>PDF document</span><input type="file" name="result_pdf" accept="application/pdf,.pdf" required><small>Maximum file size: 25 MB</small></label>
+  <div class="form-actions"><button type="submit" class="button primary">Upload and process <span>→</span></button><span class="secure-note">🔒 Processed locally on this server</span></div>
+</form><div class="import-note"><b>Before you import</b><span>Regular imports update that semester's regular grades while preserving supplementary attempts. Review the totals after import, since PDF layouts can vary.</span></div></section>
+<section class="info-grid"><article class="info-tile"><span class="info-number">01</span><b>Choose result type</b><p>Select Regular or Supplementary and confirm the semester details.</p></article><article class="info-tile"><span class="info-number">02</span><b>Upload the PDF</b><p>The parser reads hall tickets, subject grade columns, and SGPA where available.</p></article><article class="info-tile"><span class="info-number">03</span><b>Review the dashboard</b><p>See import totals and confirm the dashboard reflects your result data.</p></article></section>
+{% endblock %}

@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Backlog Tracker{% endblock %} · GCET</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar">
+    <a class="brand" href="{{ url_for('dashboard') }}"><span class="brand-icon">B</span><span>backlog<span class="brand-light">tracker</span><small>ACADEMIC ANALYTICS</small></span></a>
+    <div class="nav-label">WORKSPACE</div>
+    <nav>
+      <a class="nav-item {{ 'active' if page == 'dashboard' }}" href="{{ url_for('dashboard') }}"><span class="nav-icon">▦</span>Overview</a>
+      <a class="nav-item {{ 'active' if page == 'students' }}" href="{{ url_for('students') }}"><span class="nav-icon">⌕</span>Student lookup</a>
+      <a class="nav-item {{ 'active' if page == 'imports' }}" href="{{ url_for('imports') }}"><span class="nav-icon">↥</span>Result imports</a>
+      <a class="nav-item {{ 'active' if page == 'supplementary' }}" href="{{ url_for('supplementary') }}"><span class="nav-icon">↻</span>Supplementary update</a>
+      <a class="nav-item {{ 'active' if page == 'reports' }}" href="{{ url_for('reports') }}"><span class="nav-icon">▤</span>Reports & exports</a>
+    </nav>
+    <div class="sidebar-bottom"><div class="status-dot"></div><span>Local workspace</span><span class="status-pill">READY</span></div>
+  </aside>
+  <main class="main-area">
+    <header class="topbar"><div class="breadcrumb">GCET <span>/</span> Academic performance</div><div class="top-right"><span class="term-chip">AR25 · I YEAR I SEM</span><div class="avatar">FA</div><span class="user-label">Faculty admin</span></div></header>
+    <div class="page-wrap">
+      {% with messages = get_flashed_messages(with_categories=true) %}{% if messages %}<div class="flash-stack">{% for category, message in messages %}<div class="flash {{ category }}">{{ message }}<button onclick="this.parentElement.remove()" aria-label="Dismiss">×</button></div>{% endfor %}</div>{% endif %}{% endwith %}
+      {% block content %}{% endblock %}
+      <footer>Backlog Tracker <span>·</span> Software Engineering PBL <span>·</span> Geethanjali College of Engineering & Technology</footer>
+    </div>
+  </main>
+</div>
+</body>
+</html>

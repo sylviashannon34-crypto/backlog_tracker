@@ -1,0 +1,21 @@
+{% extends 'base.html' %}{% block title %}Overview{% endblock %}{% block content %}
+<div class="page-heading"><div><div class="eyebrow">ACADEMIC PERFORMANCE</div><h1>Backlog overview</h1><p class="subheading">A clear view of student progress and active backlogs.</p></div><a class="button primary" href="{{ url_for('imports') }}"><span>＋</span> Import results</a></div>
+<div class="semester-banner"><div class="semester-mark">01</div><div><div class="banner-title">I Year I Semester <span class="scheme">AR25</span></div><div class="banner-caption">Computer Science and Engineering <span>·</span> Result monitoring</div></div><div class="banner-right"><span class="live-dot"></span> LIVE TRACKING</div></div>
+<section class="metric-grid">
+  <article class="metric-card"><div class="metric-top"><span>Total students</span><span class="metric-icon blue">♙</span></div><div class="metric-value">{{ data.total_students }}</div><div class="metric-note">In selected result set</div></article>
+  <article class="metric-card"><div class="metric-top"><span>Active backlogs</span><span class="metric-icon orange">!</span></div><div class="metric-value">{{ data.students_with_backlogs }}</div><div class="metric-note">Students needing follow-up</div></article>
+  <article class="metric-card"><div class="metric-top"><span>No active backlogs</span><span class="metric-icon green">✓</span></div><div class="metric-value">{{ data.students_without_backlogs }}</div><div class="metric-note">Clear in current result set</div></article>
+  <article class="metric-card"><div class="metric-top"><span>Subjects tracked</span><span class="metric-icon violet">▤</span></div><div class="metric-value">{{ data.subject_count }}</div><div class="metric-note">With current active backlogs</div></article>
+</section>
+<section class="content-grid">
+  <article class="panel distribution-panel"><div class="panel-heading"><div><h2>Backlog distribution</h2><p>Students by number of active subjects</p></div><span class="panel-badge">STUDENT COUNT</span></div>
+    {% set max_dist = [data.distribution.values()|max, 1]|max %}
+    <div class="bars">{% for key in ['0','1','2','3','4+'] %}<div class="bar-row"><span class="bar-label">{{ key }} backlog{{ '' if key == '1' else 's' }}</span><div class="bar-track"><div class="bar-fill {{ 'emphasis' if key != '0' }}" style="width:{{ (data.distribution[key] / max_dist * 100)|round }}%"></div></div><b>{{ data.distribution[key] }}</b></div>{% endfor %}</div>
+    <div class="legend"><span><i class="legend-clear"></i> No backlog</span><span><i class="legend-active"></i> Active backlog</span></div>
+  </article>
+  <article class="panel subject-panel"><div class="panel-heading"><div><h2>Subject hotspots</h2><p>Active backlog count by subject</p></div><a class="text-link" href="{{ url_for('reports') }}">View reports →</a></div>
+    {% if data.subjects %}<div class="subject-list">{% for subject in data.subjects[:6] %}<div class="subject-row"><div class="subject-avatar">{{ subject.name[:1] }}</div><div class="subject-name">{{ subject.name }}</div><div class="subject-meter"><div style="width:{{ (subject.count / (data.subjects[0].count or 1) * 100)|round }}%"></div></div><strong>{{ subject.count }}</strong></div>{% endfor %}</div>{% else %}<div class="empty-small"><span>▤</span><b>No subject data yet</b><p>Import a regular result PDF to see subject trends.</p></div>{% endif %}
+  </article>
+</section>
+<section class="bottom-callout"><div class="callout-icon">↗</div><div><b>Keep student records up to date</b><p>Import regular results, then add supplementary attempts to refresh active backlog counts.</p></div><a class="text-link" href="{{ url_for('supplementary') }}">Update supplementary results →</a></section>
+{% endblock %}
